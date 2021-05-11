@@ -13,35 +13,33 @@ from scipy.interpolate import interp1d
 port = 'COM7'
 samples = 5000
 
-arduino = serial.Serial(port=port, baudrate=57600, timeout=.1)
-print('start')
-time.sleep(2)
+with serial.Serial(port=port, baudrate=57600, timeout=.1) as arduino:
+    print('start')
+    time.sleep(2)
 
-mag = np.empty(samples, dtype=int)
-t = np.empty(mag.shape)
+    mag = np.empty(samples, dtype=int)
+    t = np.empty(mag.shape)
 
 
 
-timepoint = 0
-t0 = time.time()
-print(t0)
-for i ,(m, tau) in enumerate(zip(mag, t)):
-    try:
-        dat = int(arduino.readline())
-        # if i == 0:
-        #    y0 = dat
-        mag[i] = dat
-        t[i] = time.time() - t0
-        print(dat)
-    except ValueError:
-        dat = None
-        print('Fail')
-print('Fertig')
-mag = mag - mag[0]
-arduino.close()
-#print(mag)
+    timepoint = 0
+    t0 = time.time()
+    print(t0)
+    for i ,(m, tau) in enumerate(zip(mag, t)):
+        try:
+            dat = int(arduino.readline())
+            # if i == 0:
+            #    y0 = dat
+            mag[i] = dat
+            t[i] = time.time() - t0
+            print(dat)
+        except ValueError:
+            dat = None
+            print('Fail')
+    print('Fertig')
+    mag = mag - mag[0]
+
 fig, (line_ax) = plt.subplots()
-#line_ax.set_ylim(-50, 50)
 line_ax.set_ylabel('Field')
 line_ax.set_xlabel('time')
 plt.plot(t, mag)
