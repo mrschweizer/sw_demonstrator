@@ -9,11 +9,18 @@ from scipy.signal import spectrogram
 from scipy.signal import resample
 from scipy.interpolate import interp1d
 
-arduino = serial.Serial(port='COM7', baudrate=57600, timeout=.1)
+
+port = 'COM7'
+samples = 5000
+
+arduino = serial.Serial(port=port, baudrate=57600, timeout=.1)
 print('start')
 time.sleep(2)
-mag = np.empty(5000, dtype=int)
+
+mag = np.empty(samples, dtype=int)
 t = np.empty(mag.shape)
+
+
 
 timepoint = 0
 t0 = time.time()
