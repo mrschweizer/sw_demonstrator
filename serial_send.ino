@@ -3,7 +3,7 @@ int val = 0;
 int analogPin = A0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(56700);
 }
 
 void loop() {
